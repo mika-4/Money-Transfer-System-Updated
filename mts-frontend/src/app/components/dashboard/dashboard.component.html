@@ -1,0 +1,172 @@
+<div class="dashboard-page">
+  <!-- Top Navigation Bar -->
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <div class="nav-logo">₹</div>
+      <span class="nav-title">MTS</span>
+    </div>
+    <div class="nav-actions">
+      <div class="nav-user" *ngIf="currentUser">
+        <div class="user-avatar">{{ (currentUser.holderName || 'U').charAt(0) }}</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <!-- Loading Skeleton -->
+    <div *ngIf="isLoading" class="skeleton-wrapper fade-in">
+      <div class="skeleton skeleton-greeting"></div>
+      <div class="skeleton skeleton-balance"></div>
+      <div class="skeleton-grid">
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div *ngIf="!isLoading" class="fade-in">
+      <!-- Error Banner -->
+      <div class="error-banner" *ngIf="errorMessage">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+        </svg>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Welcome Section -->
+      <div class="welcome-section">
+        <div class="welcome-text">
+          <p class="greeting-small">{{ greeting }},</p>
+          <h1 class="greeting-name">{{ account?.holderName }} {{ greetingEmoji }}</h1>
+        </div>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="balance-card" *ngIf="account">
+        <div class="balance-card-inner">
+          <div class="balance-header">
+            <span class="balance-label">Available Balance</span>
+            <div class="balance-status-badge">
+              <span class="status-dot"></span>
+              {{ account.status }}
+            </div>
+          </div>
+          <div class="balance-amount">
+            ₹ {{ account.balance | number:'1.2-2' }}
+          </div>
+          <div class="balance-footer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+              <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z" />
+              <path fill-rule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z" clip-rule="evenodd" />
+            </svg>
+            <span>Account: {{ formattedAccountId }}</span>
+          </div>
+        </div>
+        <div class="balance-decoration"></div>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="section-title">Quick Actions</div>
+      <div class="actions-grid">
+        <!-- Transfer -->
+        <button class="action-card action-transfer" (click)="navigateTo('/transfer')">
+          <div class="action-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375z" />
+              <path fill-rule="evenodd" d="M3.087 9l.54 9.176A3 3 0 006.62 21h10.757a3 3 0 002.995-2.824L20.913 9H3.087zm6.163 3.75A.75.75 0 0110 12h1.5v-1.5a.75.75 0 011.5 0V12H14.5a.75.75 0 010 1.5H13v1.5a.75.75 0 01-1.5 0V13.5H10a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <span class="action-label">Transfer</span>
+          <span class="action-hint">Send money</span>
+        </button>
+
+        <!-- History -->
+        <button class="action-card action-history" (click)="navigateTo('/history')">
+          <div class="action-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zm9.586 4.594a.75.75 0 00-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.116-.062l3-3.75z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <span class="action-label">History</span>
+          <span class="action-hint">View transactions</span>
+        </button>
+
+        <!-- Profile -->
+        <button class="action-card action-profile" (click)="navigateTo('/dashboard')">
+          <div class="action-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <span class="action-label">Profile</span>
+          <span class="action-hint">My account</span>
+        </button>
+
+        <!-- Logout -->
+        <button class="action-card action-logout" (click)="logout()">
+          <div class="action-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <span class="action-label">Logout</span>
+          <span class="action-hint">Sign out</span>
+        </button>
+      </div>
+
+      <!-- Account Details Card -->
+      <div class="details-card" *ngIf="account">
+        <div class="details-header">Account Details</div>
+        <div class="details-row">
+          <span class="detail-key">Account ID</span>
+          <span class="detail-value mono">{{ account.id }}</span>
+        </div>
+        <div class="details-row">
+          <span class="detail-key">Holder Name</span>
+          <span class="detail-value">{{ account.holderName }}</span>
+        </div>
+        <div class="details-row">
+          <span class="detail-key">Status</span>
+          <span class="detail-value">
+            <span class="status-chip" [class.active]="account.status === 'ACTIVE'">
+              {{ account.status }}
+            </span>
+          </span>
+        </div>
+        <div class="details-row">
+          <span class="detail-key">Last Updated</span>
+          <span class="detail-value">{{ account.lastUpdated | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" (click)="navigateTo('/dashboard')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+      </svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" (click)="navigateTo('/transfer')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+        <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375z" />
+        <path fill-rule="evenodd" d="M3.087 9l.54 9.176A3 3 0 006.62 21h10.757a3 3 0 002.995-2.824L20.913 9H3.087zm6.163 3.75A.75.75 0 0110 12h1.5v-1.5a.75.75 0 011.5 0V12H14.5a.75.75 0 010 1.5H13v1.5a.75.75 0 01-1.5 0V13.5H10a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+      </svg>
+      <span>Transfer</span>
+    </button>
+    <button class="nav-item" (click)="navigateTo('/history')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+        <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd" />
+        <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zm9.586 4.594a.75.75 0 00-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.116-.062l3-3.75z" clip-rule="evenodd" />
+      </svg>
+      <span>History</span>
+    </button>
+  </nav>
+</div>
