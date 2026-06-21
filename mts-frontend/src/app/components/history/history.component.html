@@ -113,6 +113,10 @@
             <div class="txn-details">
               <div class="txn-title">{{ getTransactionType(t) }} {{ getCounterparty(t) }}</div>
               <div class="txn-date">{{ t.createdOn | date:'MMM dd, yyyy · hh:mm a' }}</div>
+              <div class="txn-meta" *ngIf="t.note || t.rewardPoints">
+                <small class="txn-note" *ngIf="t.note">{{ t.note }}</small>
+                <small class="txn-points" *ngIf="t.rewardPoints">• Earned {{ t.rewardPoints }} pts</small>
+              </div>
             </div>
 
             <div class="txn-right">

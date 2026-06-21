@@ -24,6 +24,8 @@ export interface TransactionLog {
   failureReason?: string;
   idempotencyKey: string;
   createdOn: string;
+  note?: string;
+  rewardPoints?: number;
 }
 
 export enum TransactionStatus {
@@ -38,6 +40,7 @@ export interface TransferRequest {
   toAccountId: number;
   amount: number;
   idempotencyKey: string;
+  remarks?: string;
 }
 
 export interface TransferResponse {
@@ -47,6 +50,8 @@ export interface TransferResponse {
   debitedFrom: number;
   creditedTo: number;
   amount: number;
+  rewardPoints?: number;
+  note?: string;
 }
 
 // Auth models

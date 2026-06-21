@@ -19,6 +19,9 @@ public class UserCredential {
 
     @Column(nullable = false, length = 255)
     private String password;   // stored as BCrypt hash
+    
+    @Column(name = "mpin_hash", length = 255)
+    private String mpinHash; // BCrypt hash of 6-digit MPIN
 
     @Column(name = "account_id", nullable = false, unique = true)
     private Long accountId;    // FK → account.id (logical, no hard FK to keep it simple)
@@ -41,6 +44,9 @@ public class UserCredential {
 
     public String getPassword()             { return password; }
     public void setPassword(String p)       { this.password = p; }
+
+    public String getMpinHash()              { return mpinHash; }
+    public void setMpinHash(String mpinHash) { this.mpinHash = mpinHash; }
 
     public Long getAccountId()              { return accountId; }
     public void setAccountId(Long aid)      { this.accountId = aid; }

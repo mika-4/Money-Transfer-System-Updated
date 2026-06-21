@@ -12,4 +12,5 @@ public interface AccountService {
 	Account getAccount(long id);
 	BigDecimal getBalance(long id);
 	List<TransactionLog> getTransactions(Long accountId);
+	boolean verifyMpin(Long accountId, String mpin);
 }

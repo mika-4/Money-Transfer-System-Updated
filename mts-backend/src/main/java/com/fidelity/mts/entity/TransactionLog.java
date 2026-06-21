@@ -28,6 +28,10 @@ public class TransactionLog {
 	@Column
 	private String idempotencyKey;
 	@Column
+	private String note;
+	@Column
+	private Integer rewardPoints;
+	@Column
 	private Timestamp createdOn;
 	public UUID getId() {
 		return id;
@@ -71,6 +75,11 @@ public class TransactionLog {
 	public void setIdempotencyKey(String idempotencyKey) {
 		this.idempotencyKey = idempotencyKey;
 	}
+	public String getNote() { return note; }
+	public void setNote(String note) { this.note = note; }
+
+	public Integer getRewardPoints() { return rewardPoints; }
+	public void setRewardPoints(Integer rewardPoints) { this.rewardPoints = rewardPoints; }
 	public Timestamp getCreatedOn() {
 		return createdOn;
 	}

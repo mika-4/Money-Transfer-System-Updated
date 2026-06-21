@@ -45,13 +45,22 @@ public class TransferServiceImpl implements TransferService {
             executeTransfer(fromAccount, toAccount, transferRequest.getAmount()); 
             accountRepository.save(fromAccount);
             accountRepository.save(toAccount);
+            // compute reward points: sender receives floor(amount/100) points for transfers >= 100 to another user
+            Integer points = 0;
+            if (transferRequest.getFromAccountid() != transferRequest.getToAccountId()) {
+                if (transferRequest.getAmount() != null && transferRequest.getAmount().compareTo(new java.math.BigDecimal(100)) >= 0) {
+                    points = transferRequest.getAmount().divideToIntegralValue(new java.math.BigDecimal(100)).intValue();
+                }
+            }
             TransactionLog transactionLog = logTransaction(
                     transferRequest.getFromAccountid(),
                     transferRequest.getToAccountId(),
                     transferRequest.getAmount(),
                     TransactionStatus.SUCCESS,
                     null,
-                    transferRequest.getIdempotencyKey()
+                    transferRequest.getIdempotencyKey(),
+                    transferRequest.getRemarks(),
+                    points
             );  
             return buildSuccessResponse(transactionLog, transferRequest);
         } catch (Exception e) {  
@@ -61,7 +70,9 @@ public class TransferServiceImpl implements TransferService {
                     transferRequest.getAmount(),
                     TransactionStatus.FAILED,
                     e.getMessage(),
-                    transferRequest.getIdempotencyKey()
+                    transferRequest.getIdempotencyKey(),
+                    transferRequest.getRemarks(),
+                    0
             );
                
             throw e;
@@ -109,7 +120,7 @@ public class TransferServiceImpl implements TransferService {
         }
     }   
     private TransactionLog logTransaction(Long fromAccountId, Long toAccountId, BigDecimal amount,
-                                          TransactionStatus status, String failureReason, String idempotencyKey) {
+                                          TransactionStatus status, String failureReason, String idempotencyKey, String note, Integer rewardPoints) {
         TransactionLog log = new TransactionLog();
         log.setId(UUID.randomUUID());
         log.setFromAccountid(fromAccountId);
@@ -118,6 +129,8 @@ public class TransferServiceImpl implements TransferService {
         log.setStatus(status);
         log.setFailureReason(failureReason);
         log.setIdempotencyKey(idempotencyKey);
+        log.setNote(note);
+        log.setRewardPoints(rewardPoints);
         log.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
         TransactionLog savedLog = transactionLogRepository.save(log);
         return savedLog;
@@ -130,6 +143,8 @@ public class TransferServiceImpl implements TransferService {
         response.setDebitedFrom(request.getFromAccountid());
         response.setCreditedTo(request.getToAccountId());
         response.setAmount(request.getAmount());
+        response.setRewardPoints(transactionLog.getRewardPoints());
+        response.setNote(transactionLog.getNote());
         return response;
     }
 }

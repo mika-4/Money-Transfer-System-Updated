@@ -12,6 +12,8 @@ public class TransferResponse {
 	private long debitedFrom;
 	private long creditedTo;
 	private BigDecimal amount;
+	private Integer rewardPoints;
+	private String note;
 	
 	
 	public UUID getTransactionId() {
@@ -50,5 +52,11 @@ public class TransferResponse {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+
+	public Integer getRewardPoints() { return rewardPoints; }
+	public void setRewardPoints(Integer rewardPoints) { this.rewardPoints = rewardPoints; }
+
+	public String getNote() { return note; }
+	public void setNote(String note) { this.note = note; }
 	
 }

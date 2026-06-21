@@ -13,6 +13,8 @@ public class TransferRequest {
 	private BigDecimal amount;
 	@NotNull
 	private String idempotencyKey;
+
+	private String remarks;
 	
 	public void setFromAccountid(long fromAccountid) {
 		this.fromAccountid = fromAccountid;
@@ -38,6 +40,9 @@ public class TransferRequest {
 	public String getIdempotencyKey() {
 		return idempotencyKey;
 	}
+
+	public String getRemarks() { return remarks; }
+	public void setRemarks(String remarks) { this.remarks = remarks; }
 
  
 }

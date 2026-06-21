@@ -9,4 +9,5 @@ import com.fidelity.mts.entity.UserCredential;
 public interface UserCredentialRepository extends JpaRepository<UserCredential, Long> {
 
     Optional<UserCredential> findByUsername(String username);
+    Optional<UserCredential> findByAccountId(Long accountId);
 }

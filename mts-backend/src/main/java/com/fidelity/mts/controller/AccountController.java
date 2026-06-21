@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fidelity.mts.entity.Account;
 import com.fidelity.mts.service.AccountService;
+import com.fidelity.mts.dto.MpinRequest;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -43,5 +44,12 @@ public class AccountController {
 	        List<TransactionLog> transactions = accountservice.getTransactions(id);
 	        return ResponseEntity.ok(transactions);
 	    }
+    
+	@PostMapping("/{id}/verify-mpin")
+	public ResponseEntity<String> verifyMpin(@PathVariable long id, @RequestBody MpinRequest request) {
+		boolean ok = accountservice.verifyMpin(id, request.getMpin());
+		if (ok) return ResponseEntity.ok("MPIN verified");
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid MPIN");
+	}
 	
 }

@@ -34,7 +34,19 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    this.loadAccount(accountId);
+    // Ask for 6-digit MPIN before loading account details
+    const rawMpin = window.prompt('Enter your 6-digit MPIN to view account details');
+    if (!rawMpin) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.accountService.verifyMpin(accountId, rawMpin).subscribe({
+      next: () => this.loadAccount(accountId),
+      error: () => {
+        this.errorMessage = 'Invalid MPIN. Access denied.';
+        this.isLoading = false;
+      }
+    });
 
     // Update time every minute
     setInterval(() => { this.currentTime = new Date(); }, 60000);

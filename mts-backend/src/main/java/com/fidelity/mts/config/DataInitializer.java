@@ -69,6 +69,19 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
+    /** Insert credential and MPIN (BCrypt) if username doesn't already exist */
+    private void seedCredentialWithMpin(String username, String rawPassword, String rawMpin, Long accountId) {
+        if (credRepo.findByUsername(username).isEmpty()) {
+            UserCredential cred = new UserCredential();
+            cred.setUsername(username);
+            cred.setPassword(passwordEncoder.encode(rawPassword));
+            cred.setAccountId(accountId);
+            cred.setMpinHash(passwordEncoder.encode(rawMpin));
+            credRepo.save(cred);
+            log.info("  Seeded credential with MPIN: {} → accountId={}", username, accountId);
+        }
+    }
+
     /**
      * Force-update the password hash for an EXISTING user.
      * Call this for "Anirudh" and "Anamika" whose hashes were wrong.

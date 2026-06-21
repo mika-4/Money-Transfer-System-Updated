@@ -27,4 +27,8 @@ export class AccountService {
   addAccount(account: Partial<Account>): Observable<string> {
     return this.http.post<string>(`${this.baseUrl}/addAccount`, account);
   }
+
+  verifyMpin(id: number, mpin: string): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/${id}/verify-mpin`, { mpin });
+  }
 }

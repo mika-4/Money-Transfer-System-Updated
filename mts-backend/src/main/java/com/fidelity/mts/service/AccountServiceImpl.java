@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fidelity.mts.entity.Account;
 import com.fidelity.mts.entity.TransactionLog;
@@ -22,6 +23,10 @@ public class AccountServiceImpl implements AccountService{
 	private AccountRepository accountrepo;
 	@Autowired
 	private TransactionLogRepository transactionLogRepository;
+    @Autowired
+    private com.fidelity.mts.repo.UserCredentialRepository userCredentialRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@Override
 	public String addAccount(Account account) {
@@ -59,6 +64,13 @@ public class AccountServiceImpl implements AccountService{
 	    }
 	    return transactions;
 	}
+
+	@Override
+	public boolean verifyMpin(Long accountId, String mpin) {
+	return userCredentialRepository.findByAccountId(accountId)
+		.map(uc -> passwordEncoder.matches(mpin, uc.getMpinHash()))
+		.orElse(false);
+    }
 
 
 

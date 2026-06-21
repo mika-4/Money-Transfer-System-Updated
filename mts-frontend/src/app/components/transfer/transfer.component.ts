@@ -112,14 +112,15 @@ export class TransferComponent implements OnInit {
       fromAccountid: this.account!.id,
       toAccountId: parseInt(this.toAccountId.value, 10),
       amount: parseFloat(this.amount.value),
-      idempotencyKey: this.generateUUID()
+      idempotencyKey: this.generateUUID(),
+      remarks: this.transferForm.get('remarks')?.value || ''
     };
 
     this.transferService.transfer(request).subscribe({
       next: (response) => {
         this.isLoading = false;
         this.transferResult = response;
-        this.successMessage = `Transfer of ₹${response.amount} completed successfully!`;
+        this.successMessage = `Transfer of ₹${response.amount} completed successfully!` + (response.rewardPoints ? ` Earned ${response.rewardPoints} points.` : '');
         // Update balance
         if (this.account) {
           this.account.balance -= request.amount;
