@@ -41,6 +41,7 @@ export interface TransferRequest {
   amount: number;
   idempotencyKey: string;
   remarks?: string;
+  mpin?: string;
 }
 
 export interface TransferResponse {

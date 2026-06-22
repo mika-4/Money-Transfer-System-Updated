@@ -15,6 +15,9 @@ public class TransferRequest {
 	private String idempotencyKey;
 
 	private String remarks;
+    
+	@NotNull
+	private String mpin;
 	
 	public void setFromAccountid(long fromAccountid) {
 		this.fromAccountid = fromAccountid;
@@ -40,6 +43,9 @@ public class TransferRequest {
 	public String getIdempotencyKey() {
 		return idempotencyKey;
 	}
+
+	public String getMpin() { return mpin; }
+	public void setMpin(String mpin) { this.mpin = mpin; }
 
 	public String getRemarks() { return remarks; }
 	public void setRemarks(String remarks) { this.remarks = remarks; }

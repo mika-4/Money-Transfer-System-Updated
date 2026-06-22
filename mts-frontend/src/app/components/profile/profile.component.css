@@ -1,0 +1,9 @@
+.profile-page { padding: 20px; max-width: 480px; margin: 0 auto; }
+.top-bar { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.top-bar .back { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface); cursor:pointer }
+.profile-main { background:transparent }
+.details-card { background: white; border-radius:12px; padding:14px; border:1px solid var(--border); box-shadow:0 6px 18px rgba(0,0,0,0.04) }
+.details-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #F0F4F8 }
+.details-row:last-child { border-bottom:none }
+.detail-key { color:var(--text-secondary); font-weight:600 }
+.detail-value { font-weight:700 }

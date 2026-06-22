@@ -23,6 +23,10 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
+  }
+
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/dashboard']);

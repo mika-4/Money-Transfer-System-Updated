@@ -26,7 +26,7 @@
       <div class="result-details" *ngIf="transferResult">
         <div class="result-row">
           <span>Transaction ID</span>
-          <span class="mono">{{ transferResult.transactionId?.substring(0, 8) }}...</span>
+          <span class="mono">{{ transferResult.transactionId.substring(0, 8) }}...</span>
         </div>
         <div class="result-row">
           <span>Amount</span>
@@ -189,6 +189,28 @@
         <div class="modal-from" *ngIf="account">From: {{ account.holderName }}</div>
       </div>
       <p class="modal-warning">This action cannot be undone.</p>
+      <div class="modal-mpin">
+        <label class="form-label">Enter 6-digit MPIN</label>
+        <div class="mpin-input-wrapper">
+          <input
+            [type]="showMpin ? 'text' : 'password'"
+            class="form-input"
+            placeholder="••••••"
+            [formControl]="mpin"
+            maxlength="6"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            autocomplete="one-time-code"
+          />
+          <button type="button" class="mpin-toggle" (click)="toggleShowMpin()">
+            {{ showMpin ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+        <div class="field-error" *ngIf="transferForm.get('mpin')?.invalid && transferForm.get('mpin')?.touched">
+          <span *ngIf="transferForm.get('mpin')?.errors?.['required']">MPIN is required</span>
+          <span *ngIf="transferForm.get('mpin')?.errors?.['pattern']">Enter a valid 6-digit MPIN</span>
+        </div>
+      </div>
       <div class="modal-actions">
         <button class="btn-modal-cancel" (click)="cancelConfirm()">Cancel</button>
         <button class="btn-modal-confirm" (click)="confirmTransfer()">Confirm Transfer</button>

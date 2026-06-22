@@ -8,6 +8,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
   },
   {
+    path: 'register',
+    loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent)
+  },
+  {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [AuthGuard]
@@ -20,6 +24,11 @@ export const routes: Routes = [
   {
     path: 'history',
     loadComponent: () => import('./components/history/history.component').then(m => m.HistoryComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent),
     canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '/login' }

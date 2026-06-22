@@ -1,0 +1,10 @@
+.register-page { display:flex; align-items:center; justify-content:center; min-height:80vh; }
+.register-container { width:360px; background:var(--surface); padding:20px; border-radius:12px; box-shadow:var(--shadow-md); }
+.register-container h1 { margin-bottom:12px; font-size:20px; color:var(--primary); }
+.form-group { margin-bottom:12px; }
+.form-input { width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:8px; }
+.form-actions { display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:16px; }
+.btn-primary { background:var(--primary); color:white; padding:8px 12px; border-radius:8px; border:none; }
+.btn-link { background:transparent; border:none; color:var(--primary-2); }
+.error-alert { color:var(--danger); margin-bottom:8px; }
+.success-alert { color:var(--success); margin-bottom:8px; }

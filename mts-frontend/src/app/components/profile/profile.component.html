@@ -1,0 +1,30 @@
+<div class="profile-page">
+  <nav class="top-bar">
+    <button class="back" (click)="router.navigate(['/dashboard'])">Back</button>
+    <h2>Account Details</h2>
+  </nav>
+
+  <main class="profile-main">
+    <div *ngIf="isLoading">Loading...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <div *ngIf="account" class="details-card">
+      <div class="details-row">
+        <span class="detail-key">Account ID</span>
+        <span class="detail-value mono">{{ account.id }}</span>
+      </div>
+      <div class="details-row">
+        <span class="detail-key">Holder Name</span>
+        <span class="detail-value">{{ account.holderName }}</span>
+      </div>
+      <div class="details-row">
+        <span class="detail-key">Status</span>
+        <span class="detail-value">{{ account.status }}</span>
+      </div>
+      <div class="details-row">
+        <span class="detail-key">Last Updated</span>
+        <span class="detail-value">{{ account.lastUpdated | date:'medium' }}</span>
+      </div>
+    </div>
+  </main>
+</div>

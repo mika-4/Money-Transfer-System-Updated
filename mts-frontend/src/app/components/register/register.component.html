@@ -1,0 +1,39 @@
+<div class="register-page">
+  <div class="register-container fade-in">
+    <h1>Create Account</h1>
+    <div class="error-alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="success-alert" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" formControlName="username" class="form-input" />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" class="form-input" />
+      </div>
+
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" class="form-input" />
+      </div>
+
+      <div class="form-group">
+        <label>MPIN (6 digits)</label>
+        <input type="password" formControlName="mpin" class="form-input" maxlength="6" />
+      </div>
+
+      <div class="form-group">
+        <label>Account ID</label>
+        <input type="text" formControlName="accountId" class="form-input" />
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary" type="submit" [disabled]="isLoading">{{ isLoading ? 'Creating...' : 'Create Account' }}</button>
+        <button type="button" class="btn-link" (click)="router.navigate(['/login'])">Back to login</button>
+      </div>
+    </form>
+  </div>
+</div>

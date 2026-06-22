@@ -18,12 +18,20 @@ export class DashboardComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   currentTime = new Date();
+  showBalance = false;
+  showDetails = false;
+  isDark = false;
+  totalRewardPoints: number | null = null;
 
   constructor(
     private authService: AuthService,
     private accountService: AccountService,
     private router: Router
   ) {}
+
+  toggleDetails(): void {
+    this.showDetails = !this.showDetails;
+  }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
@@ -33,23 +41,15 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-
-    // Ask for 6-digit MPIN before loading account details
-    const rawMpin = window.prompt('Enter your 6-digit MPIN to view account details');
-    if (!rawMpin) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.accountService.verifyMpin(accountId, rawMpin).subscribe({
-      next: () => this.loadAccount(accountId),
-      error: () => {
-        this.errorMessage = 'Invalid MPIN. Access denied.';
-        this.isLoading = false;
-      }
-    });
+    // Load account details without asking for MPIN on dashboard
+    this.loadAccount(accountId);
 
     // Update time every minute
     setInterval(() => { this.currentTime = new Date(); }, 60000);
+    // apply theme from localStorage
+    const t = localStorage.getItem('theme');
+    this.isDark = t === 'dark';
+    if (this.isDark) document.body.classList.add('dark-theme');
   }
 
   loadAccount(accountId: number): void {
@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
       next: (account) => {
         this.account = account;
         this.isLoading = false;
+        this.loadRewardPoints(accountId);
       },
       error: (err) => {
         // Fallback: show user info from session if backend unavailable
@@ -77,6 +78,19 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  private loadRewardPoints(accountId: number): void {
+    this.totalRewardPoints = null;
+    this.accountService.getTransactions(accountId).subscribe({
+      next: (txs: any[]) => {
+        const sum = txs.reduce((acc: number, t: any) => acc + (t.rewardPoints || 0), 0);
+        this.totalRewardPoints = sum;
+      },
+      error: () => {
+        this.totalRewardPoints = 0;
+      }
+    });
+  }
+
   get greeting(): string {
     const hour = this.currentTime.getHours();
     if (hour < 12) return 'Good Morning';
@@ -84,11 +98,8 @@ export class DashboardComponent implements OnInit {
     return 'Good Evening';
   }
 
-  get greetingEmoji(): string {
-    const hour = this.currentTime.getHours();
-    if (hour < 12) return '☀️';
-    if (hour < 17) return '👋';
-    return '🌙';
+  get greetingName(): string {
+    return this.currentUser?.holderName || 'User';
   }
 
   get formattedAccountId(): string {
@@ -99,6 +110,21 @@ export class DashboardComponent implements OnInit {
 
   navigateTo(route: string): void {
     this.router.navigate([route]);
+  }
+
+  toggleBalance(): void {
+    this.showBalance = !this.showBalance;
+  }
+
+  toggleTheme(): void {
+    this.isDark = !this.isDark;
+    if (this.isDark) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   logout(): void {

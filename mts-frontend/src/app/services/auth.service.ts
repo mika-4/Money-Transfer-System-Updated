@@ -6,6 +6,13 @@ import { tap } from 'rxjs/operators';
 import { AuthUser, LoginCredentials } from '../models';
 import { environment } from '../../environments/environment';
 
+interface AddUserRequest {
+  username: string;
+  password: string;
+  mpin: string;
+  accountId: number;
+}
+
 /** Shape returned by POST /api/v1/auth/login */
 interface BackendLoginResponse {
   token:      string;
@@ -75,5 +82,9 @@ export class AuthService {
   getAccountId(): number | null {
     const id = localStorage.getItem(this.ACCOUNT_ID_KEY);
     return id ? parseInt(id, 10) : null;
+  }
+
+  addUser(req: AddUserRequest) {
+    return this.http.post(`${environment.apiUrl}/auth/add-user`, req);
   }
 }

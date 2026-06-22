@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0D47A1 0%, #1565C0 40%, #1976D2 70%, #1E88E5 100%);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2), #C084FC, #F6DBC0);
   position: relative;
   overflow: hidden;
   padding: 24px;
@@ -66,13 +66,13 @@
 .logo-icon {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #1565C0, #1976D2);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.4);
+  box-shadow: 0 8px 24px rgba(80, 45, 85, 0.25);
   animation: pulse 3s ease-in-out infinite;
 }
 
@@ -138,9 +138,9 @@
 }
 
 .input-wrapper:focus-within {
-  border-color: #1976D2;
+  border-color: var(--primary-2);
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+  box-shadow: 0 0 0 3px rgba(147, 80, 115, 0.12);
 }
 
 .input-wrapper.input-error {
@@ -204,7 +204,7 @@
 .login-btn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #1565C0, #1976D2);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
   color: white;
   border: none;
   border-radius: 10px;
@@ -215,13 +215,13 @@
   transition: all 0.2s ease;
   letter-spacing: 0.3px;
   margin-top: 4px;
-  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.35);
+  box-shadow: 0 4px 14px rgba(80, 45, 85, 0.25);
 }
 
 .login-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.45);
-  background: linear-gradient(135deg, #0D47A1, #1565C0);
+  box-shadow: 0 6px 20px rgba(80, 45, 85, 0.35);
+  background: linear-gradient(135deg, var(--primary-2), var(--primary));
 }
 
 .login-btn:active:not(:disabled) {
@@ -260,14 +260,14 @@
 }
 
 .forgot-link a {
-  color: #1976D2;
+  color: var(--primary-2);
   font-size: 13px;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-.forgot-link a:hover { color: #0D47A1; text-decoration: underline; }
+.forgot-link a:hover { color: var(--primary); text-decoration: underline; }
 
 /* Demo info */
 .demo-info {

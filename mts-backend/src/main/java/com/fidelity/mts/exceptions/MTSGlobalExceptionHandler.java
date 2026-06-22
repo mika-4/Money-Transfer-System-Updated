@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class MTSGlobalExceptionHandler{
 	@ExceptionHandler
 	public ResponseEntity<String> actNotActive(AccountNotActiveException e){
-		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
 	@ExceptionHandler
 	public ResponseEntity<String> actNotFound(AccountNotFoundException e){
@@ -16,11 +16,15 @@ public class MTSGlobalExceptionHandler{
 	}
 	@ExceptionHandler
 	public ResponseEntity<String> dupliTransfer(DuplicateTransferException e){
-		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
 	}
 	@ExceptionHandler
 	public ResponseEntity<String> insufBalance(InsufficientBalanceException e){
-		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler
+	public ResponseEntity<String> invalidRequest(IllegalArgumentException e){
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
 }
 

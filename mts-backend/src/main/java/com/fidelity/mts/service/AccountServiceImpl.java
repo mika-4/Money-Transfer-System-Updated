@@ -53,16 +53,16 @@ public class AccountServiceImpl implements AccountService{
 	
 	@Override
 	public List<TransactionLog> getTransactions(Long accountId) {
-		
-	    Optional<List<TransactionLog>> debitTransactions = transactionLogRepository.findByFromAccountid(accountId); 
-	    Optional<List<TransactionLog>> creditTransactions = transactionLogRepository.findByToAccountid(accountId); 
-	    List<TransactionLog> transactions = new ArrayList<>();
-	    debitTransactions.ifPresent(transactions::addAll);
-	    creditTransactions.ifPresent(transactions::addAll);   
-	    if (transactions.isEmpty()) {
-	        throw new AccountNotFoundException();
-	    }
-	    return transactions;
+		// ensure the account exists first
+		accountrepo.findById(accountId).orElseThrow(() -> new AccountNotFoundException(accountId));
+
+		Optional<List<TransactionLog>> debitTransactions = transactionLogRepository.findByFromAccountid(accountId);
+		Optional<List<TransactionLog>> creditTransactions = transactionLogRepository.findByToAccountid(accountId);
+		List<TransactionLog> transactions = new ArrayList<>();
+		debitTransactions.ifPresent(transactions::addAll);
+		creditTransactions.ifPresent(transactions::addAll);
+		// return empty list if there are no transactions for the account
+		return transactions;
 	}
 
 	@Override

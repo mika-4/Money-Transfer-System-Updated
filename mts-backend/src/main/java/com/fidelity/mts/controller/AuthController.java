@@ -68,7 +68,7 @@ public class AuthController {
     }
 
     // POST /api/v1/auth/add-user
-    // Body: { "username": "newuser", "password": "mypass", "accountId": 5 }
+    // Body: { "username": "newuser", "password": "mypass", "mpin": "123456", "accountId": 5 }
     @PostMapping("/add-user")
     public ResponseEntity<Map<String, String>> addUser(@Valid @RequestBody AddUserRequest req) {
         if (credRepo.findByUsername(req.getUsername()).isPresent()) {
@@ -78,6 +78,7 @@ public class AuthController {
         UserCredential cred = new UserCredential();
         cred.setUsername(req.getUsername());
         cred.setPassword(passwordEncoder.encode(req.getPassword()));
+        cred.setMpinHash(passwordEncoder.encode(req.getMpin()));
         cred.setAccountId(req.getAccountId());
         credRepo.save(cred);
         return ResponseEntity.status(HttpStatus.CREATED)

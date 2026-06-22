@@ -31,6 +31,8 @@ public class TransferServiceImpl implements TransferService {
     private AccountRepository accountRepository;
     @Autowired
     private TransactionLogRepository transactionLogRepository;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     @Transactional
@@ -101,6 +103,15 @@ public class TransferServiceImpl implements TransferService {
         if (fromAccount.getBalance().compareTo(transferRequest.getAmount()) < 0) {
             throw new InsufficientBalanceException(fromAccount.getBalance(), transferRequest.getAmount());
         }    
+
+        // Require MPIN and validate for sensitive transfers
+        if (transferRequest.getMpin() == null || transferRequest.getMpin().trim().isEmpty()) {
+            throw new IllegalArgumentException("MPIN is required to perform a transfer");
+        }
+        boolean mpinOk = accountService.verifyMpin(transferRequest.getFromAccountid(), transferRequest.getMpin());
+        if (!mpinOk) {
+            throw new IllegalArgumentException("Invalid MPIN");
+        }
     }
 
     
