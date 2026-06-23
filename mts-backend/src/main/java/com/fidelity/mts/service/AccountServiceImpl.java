@@ -59,8 +59,13 @@ public class AccountServiceImpl implements AccountService{
 		Optional<List<TransactionLog>> debitTransactions = transactionLogRepository.findByFromAccountid(accountId);
 		Optional<List<TransactionLog>> creditTransactions = transactionLogRepository.findByToAccountid(accountId);
 		List<TransactionLog> transactions = new ArrayList<>();
+		// debit (sender) transactions keep their rewardPoints
 		debitTransactions.ifPresent(transactions::addAll);
-		creditTransactions.ifPresent(transactions::addAll);
+		// credit (recipient) transactions should not carry reward points — zero them for the returned list
+		creditTransactions.ifPresent(list -> {
+			list.forEach(t -> t.setRewardPoints(0));
+			transactions.addAll(list);
+		});
 		// return empty list if there are no transactions for the account
 		return transactions;
 	}

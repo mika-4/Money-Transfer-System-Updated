@@ -1,0 +1,37 @@
+<!-- Mermaid diagram generated from architecture-diagram.svg -->
+
+```mermaid
+flowchart LR
+  subgraph FE[User Browser]
+    UB[Angular App<br/>Login / Register / Dashboard]
+    FE_INT[Frontend Integrations<br/>Auth Interceptor / Guards<br/>Notifications]
+  end
+
+  subgraph API["API Gateway / Spring Boot"]
+    API_CTRL[Controllers (REST endpoints)]
+  end
+
+  subgraph BACK["Backend — Services & Persistence"]
+    SERVICES[Services<br/>Business logic, transactions]
+    REPOS[Repositories (JPA / DAOs)]
+    DB[(Relational DB)]
+    AUDIT[Audit / Transaction History]
+    NOTIF[Notification Service<br/>Push, Webhooks]
+  end
+
+  UB --> FE_INT
+  FE_INT --> |"auth / headers"| API_CTRL
+  UB --> |"HTTPS / REST"| API_CTRL
+
+  API_CTRL --> |"invoke"| SERVICES
+  SERVICES --> |"call / persist via"| REPOS
+  REPOS --> |"store"| DB
+
+  SERVICES --> |"log events"| AUDIT
+  SERVICES --> |"notify / webhook"| NOTIF
+  NOTIF --> |"deliver"| FE_INT
+
+  style FE fill:#f8f9fa,stroke:#333,stroke-width:1px
+  style API fill:#e8f5e9,stroke:#333,stroke-width:1px
+  style BACK fill:#fefefe,stroke:#333,stroke-width:1px
+```

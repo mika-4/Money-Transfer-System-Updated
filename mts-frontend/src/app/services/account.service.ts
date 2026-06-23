@@ -25,7 +25,9 @@ export class AccountService {
   }
 
   addAccount(account: Partial<Account>): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/addAccount`, account);
+    // The backend returns a plain text message for this endpoint in some setups.
+    // Request the response as text to avoid Angular trying to parse non-JSON.
+    return this.http.post<string>(`${this.baseUrl}/addAccount`, account, { responseType: 'text' as 'json' });
   }
 
   verifyMpin(id: number, mpin: string): Observable<string> {

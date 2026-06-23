@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <style>
+    .box { fill:#f8f9fa; stroke:#333; stroke-width:1.5px; rx:8; }
+    .box-backend { fill:#e8f5e9; }
+    .title { font: 18px sans-serif; font-weight:700; }
+    .label { font: 14px sans-serif; }
+    .small { font: 12px sans-serif; fill:#444; }
+    .arrow { stroke:#333; stroke-width:2; fill:none; marker-end:url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="30" y="36" class="title">Money Transfer System — Architecture</text>
+
+  <!-- Frontend -->
+  <rect x="40" y="80" width="280" height="220" class="box"/>
+  <text x="180" y="110" text-anchor="middle" class="label">User Browser</text>
+  <text x="180" y="135" text-anchor="middle" class="small">Angular App</text>
+  <text x="180" y="155" text-anchor="middle" class="small">(Login/Register/Dashboard)</text>
+  
+
+  <!-- Arrow to API -->
+  <path d="M320 190 L420 190" class="arrow" />
+
+  <!-- API / Controllers -->
+  <rect x="420" y="60" width="260" height="240" class="box box-backend"/>
+  <text x="550" y="90" text-anchor="middle" class="label">API Gateway / Spring Boot</text>
+  <text x="550" y="115" text-anchor="middle" class="small">Controllers (REST endpoints)</text>
+
+  <!-- Internal backend boxes -->
+  <rect x="740" y="40" width="380" height="300" class="box box-backend"/>
+  <text x="930" y="70" text-anchor="middle" class="label">Backend — Services & Persistence</text>
+
+  <!-- Controllers -> Services -->
+  <path d="M680 180 L740 180" class="arrow" />
+
+  <!-- Service box -->
+  <rect x="770" y="110" width="320" height="60" class="box"/>
+  <text x="930" y="145" text-anchor="middle" class="small">Services (business logic, transactions)</text>
+
+  <!-- Repositories box -->
+  <rect x="770" y="190" width="320" height="60" class="box"/>
+  <text x="930" y="225" text-anchor="middle" class="small">Repositories (JPA / DAOs)</text>
+
+  <!-- DB -->
+  <rect x="770" y="280" width="200" height="80" rx="6" class="box"/>
+  <text x="870" y="315" text-anchor="middle" class="small">Relational DB</text>
+
+  <!-- Arrows within backend -->
+  <path d="M890 170 L890 190" class="arrow" />
+  <path d="M890 250 L890 280" class="arrow" />
+
+  <!-- External services -->
+  <rect x="40" y="330" width="260" height="120" class="box"/>
+  <text x="170" y="360" text-anchor="middle" class="label">Frontend Integrations</text>
+  <text x="170" y="385" text-anchor="middle" class="small">Auth Interceptor / Guards</text>
+  <text x="170" y="405" text-anchor="middle" class="small">Notification (Push)</text>
+
+  <path d="M180 300 L180 330" class="arrow" />
+
+  <!-- Notification service -->
+  <rect x="420" y="340" width="240" height="100" class="box box-backend"/>
+  <text x="540" y="370" text-anchor="middle" class="label">Notification Service</text>
+  <text x="540" y="395" text-anchor="middle" class="small">Push, Webhooks</text>
+
+  <path d="M830 320 L660 360" class="arrow" />
+  <path d="M540 440 L540 500" class="arrow" />
+
+  <!-- Audit / History -->
+  <rect x="660" y="440" width="220" height="100" class="box"/>
+  <text x="770" y="470" text-anchor="middle" class="label">Audit / Transaction History</text>
+  <text x="770" y="495" text-anchor="middle" class="small">Immutable logs, history views</text>
+
+  <!-- Links from Services to Audit and External -->
+  <path d="M890 170 L880 200 L880 440" class="arrow" />
+  <path d="M890 200 L880 360" class="arrow" />
+
+  <!-- Legend -->
+  <rect x="1020" y="520" width="150" height="140" rx="8" class="box"/>
+  <text x="1100" y="550" text-anchor="middle" class="label">Legend</text>
+  <text x="1075" y="580" class="small">- Frontend (User)</text>
+  <text x="1075" y="600" class="small">- API / Controllers</text>
+  <text x="1075" y="620" class="small">- Backend (Services / DB)</text>
+
+  <!-- Footer note -->
+  <text x="30" y="680" class="small">Generated architecture diagram — adapt for slide visuals</text>
+</svg>
